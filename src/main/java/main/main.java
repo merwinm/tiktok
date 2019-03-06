@@ -19,6 +19,5 @@ public class main {
             Client client = new Client(host,port);
             client.send("Hi from client");
         }
-
     }
 }
