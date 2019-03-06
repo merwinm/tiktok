@@ -25,19 +25,19 @@ public class clientHandler implements Runnable {
 
     public void run() {
         while (true){
-            readMsg();
+            try {
+                if ((dis.available()!=0)){
+                    try {
+                        data = dis.readUTF();
+                        System.out.println(data);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-        }
-    }
-
-    public void readMsg(){
-        try {
-            data = dis.readUTF();
-            if(data!=null){
-                System.out.println(data);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
