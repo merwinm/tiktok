@@ -33,7 +33,9 @@ public class clientHandler implements Runnable {
     public void readMsg(){
         try {
             data = dis.readUTF();
-            System.out.println(data);
+            if(data!=null){
+                System.out.println(data);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
