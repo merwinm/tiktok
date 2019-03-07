@@ -5,15 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static server.Server.getclientList;
+
 public class clientHandler implements Runnable {
-    Socket clientsocket;
-    DataInputStream dis;
-    DataOutputStream dos;
-    BufferedReader bufferedReader;
-    BufferedWriter bufferedWriter;
-    String data;
+    private Socket clientsocket;
+    private DataInputStream dis;
+    private DataOutputStream dos;
+    private BufferedReader bufferedReader;
+    private BufferedWriter bufferedWriter;
+    private String data;
+    static ArrayList<clientHandler>clientList;
 
     clientHandler(Socket clientsocket){
+        clientList = getclientList();
         this.clientsocket = clientsocket;
         try {
             this.dis = new DataInputStream(clientsocket.getInputStream());
@@ -21,6 +25,7 @@ public class clientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void run() {
@@ -30,6 +35,10 @@ public class clientHandler implements Runnable {
                     try {
                         data = dis.readUTF();
                         System.out.println(data);
+
+                        //for(int i = 0; 0<clientList.size();i++ ){
+                         //   clientList.get(i).
+                        //}
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -38,6 +47,14 @@ public class clientHandler implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void sendMsgToClients(String message){
+        try {
+            dos.writeUTF(message);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

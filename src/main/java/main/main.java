@@ -17,7 +17,7 @@ public class main {
 
         else{
             Client client = new Client(host,port);
-            client.send("Hi from client");
+            client.run();
         }
     }
 }

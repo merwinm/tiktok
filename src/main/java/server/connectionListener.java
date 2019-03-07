@@ -26,7 +26,7 @@ public class connectionListener implements Runnable{
             clientHandler handler = new clientHandler(clientSocket);
             thread = new Thread(handler);
             thread.start();
-            Server.clientList.add(thread);
+            Server.clientList.add(handler);
         }
     }
 }
