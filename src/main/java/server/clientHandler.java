@@ -30,16 +30,19 @@ public class clientHandler implements Runnable {
     }
 
     public void run() {
-        while (true){
+        while (true) {
             try {
-                if ((fromClient.available()!=0)){
-                        data = (chatMessage) fromClient.readObject();
-                        System.out.println(data.getMessage());
-                        //for(int i = 0; 0<clientList.size();i++ ){
-                         //   clientList.get(i).
-                        //}
-                }
+                if ((fromClient.available() != 0)) {
+                    data = (chatMessage) fromClient.readObject();
+                    System.out.println(data.getMessage());
+                    //for(int i = 0; 0<clientList.size();i++ ){
+                    //   clientList.get(i).
+                    //}
+                    for (clientHandler handler : clientList) {
+                        handler.sendMsgToClients(data.getMessage());
+                    }
 
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
