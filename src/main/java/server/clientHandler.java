@@ -36,9 +36,9 @@ public class clientHandler implements Runnable {
                         data = dis.readUTF();
                         System.out.println(data);
 
-                        //for(int i = 0; 0<clientList.size();i++ ){
-                         //   clientList.get(i).
-                        //}
+                        for(clientHandler handler: clientList){
+                            handler.sendMsgToClients(data);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
