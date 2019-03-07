@@ -1,7 +1,10 @@
 package client;
 
+import packets.chatMessage;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
@@ -10,7 +13,8 @@ public class Client {
     private String host;
     private int port;
     private Socket socket;
-    private DataOutputStream outToServer;
+    //private DataOutputStream outToServer;
+    private ObjectOutputStream outToServer;
     private Scanner scanner;
     private serverHandler handler;
 
@@ -21,7 +25,7 @@ public class Client {
 
         try {
             this.socket = new Socket(host, port);
-            this.outToServer = new DataOutputStream(socket.getOutputStream());
+            this.outToServer = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +38,8 @@ public class Client {
 
     public void send(String message){
         try {
-            outToServer.writeUTF(message);
+            //outToServer.writeUTF(message);
+            outToServer.writeObject(new chatMessage(message));
         } catch (IOException e) {
             e.printStackTrace();
         }

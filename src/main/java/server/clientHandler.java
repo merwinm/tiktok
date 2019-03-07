@@ -1,5 +1,7 @@
 package server;
 
+import packets.chatMessage;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,19 +11,18 @@ import static server.Server.getclientList;
 
 public class clientHandler implements Runnable {
     private Socket clientsocket;
-    private DataInputStream dis;
-    private DataOutputStream dos;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
-    private String data;
+    private ObjectInputStream fromClient;
+    private ObjectOutputStream outToClient;
+    private chatMessage data;
     static ArrayList<clientHandler>clientList;
 
     clientHandler(Socket clientsocket){
         clientList = getclientList();
         this.clientsocket = clientsocket;
         try {
-            this.dis = new DataInputStream(clientsocket.getInputStream());
-            this.dos = new DataOutputStream(clientsocket.getOutputStream());
+            this.outToClient = new ObjectOutputStream(clientsocket.getOutputStream());
+            this.fromClient = new ObjectInputStream(clientsocket.getInputStream());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,20 +32,17 @@ public class clientHandler implements Runnable {
     public void run() {
         while (true){
             try {
-                if ((dis.available()!=0)){
-                    try {
-                        data = dis.readUTF();
-                        System.out.println(data);
-
+                if ((fromClient.available()!=0)){
+                        data = (chatMessage) fromClient.readObject();
+                        System.out.println(data.getMessage());
                         //for(int i = 0; 0<clientList.size();i++ ){
                          //   clientList.get(i).
                         //}
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -52,7 +50,7 @@ public class clientHandler implements Runnable {
 
     public void sendMsgToClients(String message){
         try {
-            dos.writeUTF(message);
+            outToClient.writeObject(new chatMessage(message));
         } catch (IOException e) {
             e.printStackTrace();
         }
