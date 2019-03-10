@@ -9,6 +9,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
+/*
+* This class sends currently messages to the server
+* A separate serverhandler thread is run to receive incoming server messages*/
+
 public class Client {
     private String host;
     private int port;

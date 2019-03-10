@@ -9,12 +9,17 @@ import java.util.ArrayList;
 
 import static server.Server.getclientList;
 
+/*
+* this class processes incoming clientpackets, currently only chatmessages, and gets send to other clients
+* More functions are coming*/
+
 public class clientHandler implements Runnable {
     private Socket clientsocket;
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
     private chatMessage data;
     static ArrayList<clientHandler>clientList;
+    private chatMessage received;
 
     clientHandler(Socket clientsocket){
         clientList = getclientList();
@@ -28,20 +33,23 @@ public class clientHandler implements Runnable {
         }
 
     }
-
+//TODO Error Handling
     public void run() {
         while (true) {
             try {
-                if ((fromClient.available() != 0)) {
-                    data = (chatMessage) fromClient.readObject();
-                    System.out.println(data.getMessage());
+                received = (chatMessage) fromClient.readObject();
+                if ((received!=null)) {
+                    System.out.println(received.getMessage());
                     //for(int i = 0; 0<clientList.size();i++ ){
                     //   clientList.get(i).
                     //}
                     for (clientHandler handler : clientList) {
-                        handler.sendMsgToClients(data.getMessage());
+                        handler.sendMsgToClients(received.getMessage());
                     }
 
+                }
+                else{
+                    continue;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

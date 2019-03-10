@@ -27,7 +27,7 @@ public class Server {
         }
     }
     public void runServer(){
-        new connectionListener(serverSocket).run();
+        new connectionListener(serverSocket).run(); // This thread listens to clients who want to connect to the server
         while(true){
 
         }
