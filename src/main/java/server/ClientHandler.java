@@ -1,10 +1,8 @@
 package server;
 
-import packets.chatMessage;
-import packets.packet;
+import packets.PacketchatMessage;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -14,15 +12,15 @@ import static server.Server.getclientList;
 * this class processes incoming clientpackets, currently only chatmessages, and gets send to other clients
 * More functions are coming*/
 
-public class clientHandler implements Runnable {
+public class ClientHandler implements Runnable {
     private Socket clientsocket;
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
-    private chatMessage data;
-    static ArrayList<clientHandler>clientList;
-    private packet received;
+    private PacketchatMessage data;
+    static ArrayList<ClientHandler>clientList;
+    private Packet received;
 
-    clientHandler(Socket clientsocket){
+    ClientHandler(Socket clientsocket){
         clientList = getclientList();
         this.clientsocket = clientsocket;
         try {
@@ -38,14 +36,14 @@ public class clientHandler implements Runnable {
     public void run() {
         while (true) {
             try {
-                received = (chatMessage) fromClient.readObject();
+                received = (PacketchatMessage) fromClient.readObject();
                 if ((received!=null)) {
-                    System.out.println(((chatMessage) received).parse());
+                    System.out.println(((PacketchatMessage) received).parse());
                     //for(int i = 0; 0<clientList.size();i++ ){
                     //   clientList.get(i).
                     //}
-                    for (clientHandler handler : clientList) {
-                        handler.sendMsgToClients(((chatMessage) received).parse());
+                    for (ClientHandler handler : clientList) {
+                        handler.sendMsgToClients(((PacketchatMessage) received).parse());
                     }
 
                 }
@@ -62,7 +60,7 @@ public class clientHandler implements Runnable {
 
     public void sendMsgToClients(String message){
         try {
-            outToClient.writeObject(new chatMessage(message));
+            outToClient.writeObject(new PacketchatMessage(message));
         } catch (IOException e) {
             e.printStackTrace();
         }

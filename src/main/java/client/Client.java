@@ -1,6 +1,6 @@
 package client;
 
-import packets.chatMessage;
+import packets.PacketchatMessage;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class Client {
     //private DataOutputStream outToServer;
     private ObjectOutputStream outToServer;
     private Scanner scanner;
-    private serverHandler handler;
+    private ServerHandler handler;
 
     public Client(String host, int port) {
         this.host = host;
@@ -34,7 +34,7 @@ public class Client {
             e.printStackTrace();
         }
 
-        this.handler = new serverHandler(socket);
+        this.handler = new ServerHandler(socket);
         Thread thread = new Thread(handler);
         thread.start();
 
@@ -43,7 +43,7 @@ public class Client {
     public void send(String message){
         try {
             //outToServer.writeUTF(message);
-            outToServer.writeObject(new chatMessage(message));
+            outToServer.writeObject(new PacketchatMessage(message));
         } catch (IOException e) {
             e.printStackTrace();
         }

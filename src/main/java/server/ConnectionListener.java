@@ -5,13 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class connectionListener implements Runnable{
+public class ConnectionListener implements Runnable{
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private Thread thread;
 
 
-    connectionListener(ServerSocket serverSocket){
+    ConnectionListener(ServerSocket serverSocket){
     this.serverSocket = serverSocket;
     }
 
@@ -23,7 +23,7 @@ public class connectionListener implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            clientHandler handler = new clientHandler(clientSocket);
+            ClientHandler handler = new ClientHandler(clientSocket);
             thread = new Thread(handler);
             thread.start();
             Server.clientList.add(handler);

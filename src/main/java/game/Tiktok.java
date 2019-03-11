@@ -1,10 +1,10 @@
 package game;
 
-public class tiktok implements validator {
+public class Tiktok implements validator {
 
     boolean tikarea[][];
 
-    tiktok(){
+    Tiktok(){
         tikarea = new boolean[3][3];
     }
 

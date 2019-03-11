@@ -1,6 +1,6 @@
 package server;
 
-import server.connectionListener;
+import server.ConnectionListener;
 
 import java.io.IOException;
 import java.net.*;
@@ -11,7 +11,7 @@ public class Server {
     private int port;
     InetAddress IP;
     private ServerSocket serverSocket;
-    static ArrayList<clientHandler> clientList = new ArrayList<clientHandler>();
+    static ArrayList<ClientHandler> clientList = new ArrayList<ClientHandler>();
 
    public Server(int port){
         this.port = port;
@@ -27,13 +27,13 @@ public class Server {
         }
     }
     public void runServer(){
-        new connectionListener(serverSocket).run(); // This thread listens to clients who want to connect to the server
+        new ConnectionListener(serverSocket).run(); // This thread listens to clients who want to connect to the server
         while(true){
 
         }
     }
 
-    public static ArrayList<clientHandler> getclientList(){
+    public static ArrayList<ClientHandler> getclientList(){
        return clientList;
     }
 }
