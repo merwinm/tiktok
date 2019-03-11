@@ -1,25 +1,22 @@
 package client;
 
-import packets.PacketchatMessage;
-import server.ClientHandler;
+import packets.chat.PacketchatMessage;
+import server.Packet;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /*
 * This Class handles all Server packets
-* Notice the Socket comes from the client class therefore there is a Dataoutput/input channel already open
+* The Server doesnt do much. Packets contain executable code which is hence executed in the server
+* FYI:Notice the Socket comes from the client class therefore there is a Dataoutput/input channel already open
 * */
 public class ServerHandler implements Runnable {
-    private Socket clientsocket;
+
     private ObjectInputStream dis;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
-    private PacketchatMessage data;
+    private Packet data;
 
     ServerHandler(Socket socket){
-        this.clientsocket = socket;
         try {
             this.dis = new ObjectInputStream(socket.getInputStream());
 
@@ -33,10 +30,10 @@ public class ServerHandler implements Runnable {
 while(true){
 
     try {
-        data = (PacketchatMessage) dis.readObject();
+        data = (Packet) dis.readObject();
 
         if(data !=null){
-            System.out.println(data.getMessage());
+           data.parse();
         }
     } catch (IOException e) {
         e.printStackTrace();

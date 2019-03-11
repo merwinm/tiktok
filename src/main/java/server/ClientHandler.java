@@ -1,6 +1,6 @@
 package server;
 
-import packets.PacketchatMessage;
+import packets.chat.PacketchatMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,16 +13,13 @@ import static server.Server.getclientList;
 * More functions are coming*/
 
 public class ClientHandler implements Runnable {
-    private Socket clientsocket;
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
-    private PacketchatMessage data;
     static ArrayList<ClientHandler>clientList;
     private Packet received;
 
     ClientHandler(Socket clientsocket){
         clientList = getclientList();
-        this.clientsocket = clientsocket;
         try {
             this.outToClient = new ObjectOutputStream(clientsocket.getOutputStream());
             this.fromClient = new ObjectInputStream(clientsocket.getInputStream());
@@ -36,14 +33,13 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (true) {
             try {
-                received = (PacketchatMessage) fromClient.readObject();
+                received = (Packet) fromClient.readObject();
                 if ((received!=null)) {
-                    System.out.println(((PacketchatMessage) received).parse());
-                    //for(int i = 0; 0<clientList.size();i++ ){
-                    //   clientList.get(i).
-                    //}
-                    for (ClientHandler handler : clientList) {
-                        handler.sendMsgToClients(((PacketchatMessage) received).parse());
+
+                    received.parse();
+
+                    if(received instanceof PacketchatMessage){
+                        broadcast(received);
                     }
 
                 }
@@ -58,9 +54,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void sendMsgToClients(String message){
+    public void broadcast(Packet packet){
         try {
-            outToClient.writeObject(new PacketchatMessage(message));
+            for (ClientHandler handler : clientList) {
+                outToClient.writeObject(packet);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

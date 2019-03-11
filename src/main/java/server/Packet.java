@@ -6,4 +6,8 @@ import java.io.Serializable;
 
 public abstract class Packet implements DataParser, Serializable {
 
+    public Packet get(){
+        return this;
+    }
+
 }

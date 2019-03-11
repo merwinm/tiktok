@@ -8,7 +8,7 @@ public class main {
     public static void main(String[] args) {
 
         int port = 6000;
-        String host = "192.168.0.28";
+        String host = "192.168.0.6";
 
         if(args[0].equals("server")){
             Server server = new Server(port);

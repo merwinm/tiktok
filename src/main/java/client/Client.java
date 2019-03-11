@@ -1,11 +1,9 @@
 package client;
 
-import packets.PacketchatMessage;
+import packets.chat.PacketchatMessage;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
