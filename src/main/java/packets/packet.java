@@ -1,5 +1,7 @@
 package packets;
 
-public abstract class packet implements dataParser {
+import java.io.Serializable;
+
+public abstract class packet implements dataParser, Serializable {
 
 }

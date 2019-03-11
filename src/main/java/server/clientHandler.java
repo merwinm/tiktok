@@ -1,6 +1,7 @@
 package server;
 
 import packets.chatMessage;
+import packets.packet;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -19,7 +20,7 @@ public class clientHandler implements Runnable {
     private ObjectOutputStream outToClient;
     private chatMessage data;
     static ArrayList<clientHandler>clientList;
-    private chatMessage received;
+    private packet received;
 
     clientHandler(Socket clientsocket){
         clientList = getclientList();
@@ -39,12 +40,12 @@ public class clientHandler implements Runnable {
             try {
                 received = (chatMessage) fromClient.readObject();
                 if ((received!=null)) {
-                    System.out.println(received.getMessage());
+                    System.out.println(((chatMessage) received).parse());
                     //for(int i = 0; 0<clientList.size();i++ ){
                     //   clientList.get(i).
                     //}
                     for (clientHandler handler : clientList) {
-                        handler.sendMsgToClients(received.getMessage());
+                        handler.sendMsgToClients(((chatMessage) received).parse());
                     }
 
                 }
