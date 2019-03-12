@@ -6,13 +6,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ConnectionListener implements Runnable{
+    private Server server;
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private Thread thread;
 
 
-    ConnectionListener(ServerSocket serverSocket){
-    this.serverSocket = serverSocket;
+    ConnectionListener(ServerSocket serverSocket,Server server){
+        this.serverSocket = serverSocket;
+        this.server = server;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ConnectionListener implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ClientHandler handler = new ClientHandler(clientSocket);
+            ClientHandler handler = new ClientHandler(clientSocket,server);
             thread = new Thread(handler);
             thread.start();
             Server.clientList.add(handler);

@@ -1,18 +1,13 @@
 package main;
 
 import client.Client;
+import client.GUI.ClientGUI;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import server.GUI.ServerController;
 import server.Server;
+import server.GUI.ServerGUI;
 
-import java.awt.*;
-
-public class main extends Application {
+public class main {
 
     public static void main(String[] args) {
 
@@ -21,34 +16,14 @@ public class main extends Application {
 
         if (args[0].equals("server")) {
             Server server = new Server(port);
+           // Application.launch(ServerGUI.class,args);
             server.runServer();
-            launch(args);
+
         } else {
             Client client = new Client(host, port);
+            //Application.launch(ClientGUI.class,args);
             client.run();
         }
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-
-        Scene scene = new Scene(root, 300, 250);
-
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 }
 

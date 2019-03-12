@@ -20,14 +20,15 @@ public class PacketchatMessage extends Packet {
     }
 
     @Override
-    public Object parseAtServer(ClientHandler handler) {
+    public Object parseAtServer(ClientHandler handler) {   // This method gets executed when the packet reaches the server
         username = handler.getUsername();
+       // handler.getServer().serverController.setText(username + ": " + this.message);
         System.out.println(username + ": " + this.message);
         return null;
     }
 
     @Override
-    public Object parseAtClient(ServerHandler handler) {
+    public Object parseAtClient(ServerHandler handler) {  // This method gets executed when the packet reaches the client
         System.out.println(username +": "+ this.message);
         return null;
     }

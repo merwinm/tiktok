@@ -1,6 +1,7 @@
 package server;
 
-import server.ConnectionListener;
+import javafx.fxml.FXMLLoader;
+import server.GUI.ServerController;
 
 import java.io.IOException;
 import java.net.*;
@@ -9,9 +10,12 @@ import java.util.ArrayList;
 public class Server {
 
     private int port;
-    InetAddress IP;
+    private InetAddress IP;
     private ServerSocket serverSocket;
+    public ServerController serverController;
     static ArrayList<ClientHandler> clientList = new ArrayList<ClientHandler>();
+
+
 
    public Server(int port){
         this.port = port;
@@ -27,7 +31,7 @@ public class Server {
         }
     }
     public void runServer(){
-        new ConnectionListener(serverSocket).run(); // This thread listens to clients who want to connect to the server
+        new ConnectionListener(serverSocket,this).run(); // This thread listens to clients who want to connect to the server
         while(true){
 
         }

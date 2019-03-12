@@ -12,14 +12,16 @@ import static server.Server.getclientList;
 * this class processes incoming clientpackets, currently only chatmessages, and gets send to other clients
 * More functions are coming*/
 
-public class ClientHandler implements Runnable,Serializable {
+public class ClientHandler implements Runnable {
+    private Server server;
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
     static ArrayList<ClientHandler>clientList;
     private Packet received;
     private String username;
 
-    ClientHandler(Socket clientsocket){
+    ClientHandler(Socket clientsocket, Server server){
+        this.server = server;
         clientList = getclientList();
         try {
             this.outToClient = new ObjectOutputStream(clientsocket.getOutputStream());
@@ -52,6 +54,10 @@ public class ClientHandler implements Runnable,Serializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Server getServer(){
+        return this.server;
     }
 
     public void sendPacket(Packet packet){
