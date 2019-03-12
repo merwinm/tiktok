@@ -9,6 +9,7 @@ import server.Packet;
 * */
 public class PacketchatMessage extends Packet {
     private String message;
+    private String username;
 
     public PacketchatMessage(String message){
         this.message = message;
@@ -20,16 +21,14 @@ public class PacketchatMessage extends Packet {
 
     @Override
     public Object parseAtServer(ClientHandler handler) {
-        //setClientHandler(handler);
-
-        System.out.println(this.message);
+        username = handler.getUsername();
+        System.out.println(username + ": " + this.message);
         return null;
     }
 
     @Override
     public Object parseAtClient(ServerHandler handler) {
-        //setServerHandler(handler);
-        System.out.println(this.message);
+        System.out.println(username +": "+ this.message);
         return null;
     }
 }

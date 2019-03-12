@@ -51,9 +51,9 @@ public class Client {
 
     public void run(){
 
-//            System.out.println("Enter a Username");
-//            String username = scanner.nextLine();
-//            sendPacket(new PacketsetUsername(username));
+            System.out.println("Enter a Username");
+            String username = scanner.nextLine();
+            sendPacket(new PacketsetUsername(username));
 
         while(true){
 
