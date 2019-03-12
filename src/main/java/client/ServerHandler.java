@@ -11,7 +11,7 @@ import java.net.Socket;
 * The Server doesnt do much. Packets contain executable code which is hence executed in the server
 * FYI:Notice the Socket comes from the client class therefore there is a Dataoutput/input channel already open
 * */
-public class ServerHandler implements Runnable {
+public class ServerHandler implements Runnable,Serializable {
 
     private ObjectInputStream dis;
     private Packet data;
@@ -33,7 +33,7 @@ while(true){
         data = (Packet) dis.readObject();
 
         if(data !=null){
-           data.parse();
+           data.parseAtClient(this);
         }
     } catch (IOException e) {
         e.printStackTrace();

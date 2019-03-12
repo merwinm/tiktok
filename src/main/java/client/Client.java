@@ -1,6 +1,8 @@
 package client;
 
 import packets.chat.PacketchatMessage;
+import packets.chat.PacketsetUsername;
+import server.Packet;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -38,18 +40,24 @@ public class Client {
 
     }
 
-    public void send(String message){
+
+    public void sendPacket(Packet packet){
         try {
-            //outToServer.writeUTF(message);
-            outToServer.writeObject(new PacketchatMessage(message));
+            outToServer.writeObject(packet);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void run(){
+
+//            System.out.println("Enter a Username");
+//            String username = scanner.nextLine();
+//            sendPacket(new PacketsetUsername(username));
+
         while(true){
-            send(scanner.nextLine());
+
+            sendPacket(new PacketchatMessage(scanner.nextLine()));
         }
     }
 

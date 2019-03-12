@@ -1,7 +1,11 @@
 package server;
 
+import client.ServerHandler;
+
 public interface DataParser<T> {
 
-    public T parse();
+    public T parseAtServer(ClientHandler handler);
+
+    public T parseAtClient(ServerHandler handler);
 
 }

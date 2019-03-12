@@ -12,11 +12,12 @@ import static server.Server.getclientList;
 * this class processes incoming clientpackets, currently only chatmessages, and gets send to other clients
 * More functions are coming*/
 
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable,Serializable {
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
     static ArrayList<ClientHandler>clientList;
     private Packet received;
+    private String username;
 
     ClientHandler(Socket clientsocket){
         clientList = getclientList();
@@ -36,12 +37,11 @@ public class ClientHandler implements Runnable {
                 received = (Packet) fromClient.readObject();
                 if ((received!=null)) {
 
-                    received.parse();
+                    received.parseAtServer(this);
 
                     if(received instanceof PacketchatMessage){
                         broadcast(received);
                     }
-
                 }
                 else{
                     continue;
@@ -54,13 +54,25 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void broadcast(Packet packet){
+    public void sendPacket(Packet packet){
         try {
-            for (ClientHandler handler : clientList) {
-                outToClient.writeObject(packet);
-            }
+            outToClient.writeObject(packet);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void broadcast(Packet packet){
+        for (ClientHandler handler : clientList) {
+            handler.sendPacket(packet);
+        }
+    }
+
+    public void setUsername(String name){
+        this.username = name;
+    }
+
+    public String getUsername(){
+        return this.username;
     }
 }
