@@ -21,9 +21,9 @@ public class main {
            // server.runServer();
 
         } else {
-            Client client = new Client(host, port);
-           // Application.launch(ClientGUI.class,host,portNr);
-           client.run();
+           // Client client = new Client(host, port);
+           Application.launch(ClientGUI.class,host,portNr);
+           //client.run();
         }
     }
 }

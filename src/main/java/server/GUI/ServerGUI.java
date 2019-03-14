@@ -1,17 +1,11 @@
 package server.GUI;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import server.Server;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
@@ -41,8 +35,7 @@ public class ServerGUI extends Application {
         List<String> list = param.getRaw();
         port = Integer.parseInt(list.get(1));
         host = list.get(0);
-
-        server = new Server(port,serverController);
+        server = new Server(port,serverController); // passing the servercontroller to the server works only if its passes via the constructor of the server
         serverController.setServer(server);
 
     }

@@ -45,6 +45,7 @@ public class PacketchatMessage extends Packet {
     @Override
     public Object parseAtClient(ServerHandler handler) {  // This method gets executed when the packet reaches the client
         System.out.println(this.message);
+        handler.cl().setchatlog(this.message);
         return null;
     }
 }
