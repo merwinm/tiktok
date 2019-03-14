@@ -1,2 +1,2 @@
-# TicTacToe
-A simple TicTacToe game with online chat feature
+# Tic Tac Toe
+A simple Tic Tac Toe game with online chat feature
