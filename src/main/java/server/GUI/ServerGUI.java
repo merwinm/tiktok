@@ -10,13 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import server.Server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.List;
 
 public class ServerGUI extends Application {
 
-    static private ServerController serverController;
+    private String host;
+    private int port;
+    private Server server;
+
+    private ServerController serverController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -31,9 +37,13 @@ public class ServerGUI extends Application {
         primaryStage.setTitle("TicTac Server");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
+        Parameters param = getParameters();
+        List<String> list = param.getRaw();
+        port = Integer.parseInt(list.get(1));
+        host = list.get(0);
 
-     public static ServerController getServerController(){
-        return serverController;
+        server = new Server(port,serverController);
+        serverController.setServer(server);
+
     }
 }

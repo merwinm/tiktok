@@ -1,5 +1,7 @@
 package server;
 
+import server.GUI.ServerController;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,10 +27,12 @@ public class ConnectionListener implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             ClientHandler handler = new ClientHandler(clientSocket,server);
             thread = new Thread(handler);
             thread.start();
             Server.clientList.add(handler);
+            Server.getServerController().setChatLogText("CONNECTED IP: "+clientSocket.getInetAddress().toString());
         }
     }
 }

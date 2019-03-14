@@ -14,6 +14,7 @@ public class PacketsetUsername extends Packet {
     @Override
     public Object parseAtServer(ClientHandler handler) {
         handler.setUsername(name);
+
         return null;
     }
 

@@ -1,11 +1,14 @@
 package server;
 
 import packets.chat.PacketchatMessage;
+import server.GUI.ServerController;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
+import static server.Server.getServerController;
 import static server.Server.getclientList;
 
 /*
@@ -16,13 +19,16 @@ public class ClientHandler implements Runnable {
     private Server server;
     private ObjectInputStream fromClient;
     private ObjectOutputStream outToClient;
-    static ArrayList<ClientHandler>clientList;
     private Packet received;
     private String username;
+    static ArrayList<ClientHandler>clientList;
+    public static ServerController serverController;
+    private Logger logger;
 
     ClientHandler(Socket clientsocket, Server server){
         this.server = server;
         clientList = getclientList();
+        serverController = getServerController();
         try {
             this.outToClient = new ObjectOutputStream(clientsocket.getOutputStream());
             this.fromClient = new ObjectInputStream(clientsocket.getInputStream());
@@ -63,6 +69,8 @@ public class ClientHandler implements Runnable {
     public void sendPacket(Packet packet){
         try {
             outToClient.writeObject(packet);
+            outToClient.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,4 +89,9 @@ public class ClientHandler implements Runnable {
     public String getUsername(){
         return this.username;
     }
+
+    public ServerController sv(){
+        return serverController;
+    }
+
 }

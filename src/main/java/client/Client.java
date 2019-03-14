@@ -54,6 +54,7 @@ public class Client {
             System.out.println("Enter a Username");
             String username = scanner.nextLine();
             sendPacket(new PacketsetUsername(username));
+            sendPacket(new PacketchatMessage(username + " joined"));
 
         while(true){
 

@@ -1,5 +1,6 @@
 package server;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import server.GUI.ServerController;
 
@@ -7,18 +8,20 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Server {
+public class Server implements Runnable {
 
     private int port;
     private InetAddress IP;
     private ServerSocket serverSocket;
-    public ServerController serverController;
+    public static ServerController serverController;
     static ArrayList<ClientHandler> clientList = new ArrayList<ClientHandler>();
 
 
 
-   public Server(int port){
+   public Server(int port,ServerController serverController){
+
         this.port = port;
+        this.serverController = serverController;
         try {
             IP = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
@@ -30,14 +33,23 @@ public class Server {
             e.printStackTrace();
         }
     }
-    public void runServer(){
+
+    @Override
+    public void run() {
         new ConnectionListener(serverSocket,this).run(); // This thread listens to clients who want to connect to the server
         while(true){
-
         }
     }
 
     public static ArrayList<ClientHandler> getclientList(){
-       return clientList;
+        return clientList;
     }
+
+    public static ServerController getServerController(){return serverController;}
+
+    public void setPort(int port){
+       this.port = port;
+    }
+
+
 }
