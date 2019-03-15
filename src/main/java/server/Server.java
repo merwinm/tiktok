@@ -7,6 +7,7 @@ import server.GUI.ServerController;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Server implements Runnable {
 
@@ -15,6 +16,7 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     public static ServerController serverController;
     static ArrayList<ClientHandler> clientList = new ArrayList<ClientHandler>();
+    public static final Logger logger = Logger.getLogger("ServerLogger: ");
 
 
 
@@ -37,6 +39,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
         new ConnectionListener(serverSocket,this).run(); // This thread listens to clients who want to connect to the server
+        logger.info("Listening to Clients");
         while(true){
         }
     }

@@ -5,6 +5,7 @@ import server.Packet;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 /*
 * This Class handles all Server packets
@@ -16,6 +17,7 @@ public class ServerHandler implements Runnable,Serializable {
     private ObjectInputStream dis;
     private Packet data;
     static private ClientController clientController;
+    public static final Logger logger = Logger.getLogger("ServerHandler Logger: ");
 
     ServerHandler(Socket socket,Client client){
         this.client = client;
@@ -48,6 +50,7 @@ while(true){
 
         if(data !=null){
            data.parseAtClient(this);
+           logger.info("Successfully received packet");
         }
     } catch (IOException e) {
         e.printStackTrace();

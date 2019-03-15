@@ -6,6 +6,7 @@ import server.ClientHandler;
 import server.Packet;
 
 import java.lang.management.PlatformLoggingMXBean;
+import java.util.logging.Logger;
 
 /* Chat Message class is a packet which holds the chat message, it implemets the interface Dataparse to convert the packet into a chatmessage object.
  *
@@ -13,6 +14,7 @@ import java.lang.management.PlatformLoggingMXBean;
 public class PacketchatMessage extends Packet {
     private String message;
     private String username;
+    public static Logger logger = Logger.getLogger("Packet Chat Logger: ");
 
     public PacketchatMessage(String message){
         this.message = message;
@@ -39,6 +41,7 @@ public class PacketchatMessage extends Packet {
 //                }
 //            });
 
+        logger.info("Packet parsing at Server");
         return null;
     }
 
@@ -46,7 +49,9 @@ public class PacketchatMessage extends Packet {
     public Object parseAtClient(ServerHandler handler) {  // This method gets executed when the packet reaches the client
         System.out.println(this.message);
         handler.cl().setchatlog(this.message);
+        logger.info("Packet parsing at Client");
         return null;
+
     }
 }
 

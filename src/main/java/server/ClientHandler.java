@@ -21,9 +21,9 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream outToClient;
     private Packet received;
     private String username;
-    static ArrayList<ClientHandler>clientList;
+    public static ArrayList<ClientHandler>clientList;
     public static ServerController serverController;
-    private Logger logger;
+    public static final Logger logger = Logger.getLogger("ClientHandler Logger: ");
 
     ClientHandler(Socket clientsocket, Server server){
         this.server = server;
@@ -40,6 +40,7 @@ public class ClientHandler implements Runnable {
     }
 //TODO Error Handling
     public void run() {
+        logger.info("Listening to Packets");
         while (true) {
             try {
                 received = (Packet) fromClient.readObject();
@@ -70,6 +71,7 @@ public class ClientHandler implements Runnable {
         try {
             outToClient.writeObject(packet);
             outToClient.flush();
+            logger.info("Sending Packet back to Clients");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,6 +82,7 @@ public class ClientHandler implements Runnable {
         for (ClientHandler handler : clientList) {
             handler.sendPacket(packet);
         }
+        logger.info("Broadcasting packets to all clients");
     }
 
     public void setUsername(String name){

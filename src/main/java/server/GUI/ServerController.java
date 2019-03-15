@@ -9,6 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import server.Server;
 
+import java.util.logging.Logger;
+
 
 public class ServerController {
     final static int DEFAULT_PORT = 6000;
@@ -19,7 +21,7 @@ public class ServerController {
     public TextArea appLog;
     public TextArea chatLog;
     public TextField port_nr;
-
+    public static final Logger logger = Logger.getLogger("ServerControllerLogger");
     public ServerController(){
         chatLog = new TextArea();
         appLog = new TextArea();
@@ -32,10 +34,11 @@ public class ServerController {
     }
 
     public void setAppLogText(String text){
-        chatLog.appendText(text+"\n");
+        appLog.appendText(text+"\n");
     }
 
     public int getPort() {
+        logger.info("Receiving Port");
         if(port_nr.getCharacters().length()==0){
             return DEFAULT_PORT;
         }
@@ -46,6 +49,7 @@ public class ServerController {
     }
 
     public void setServer(Server server){
+        logger.info("Setting Server");
         this.server =  server;
     }
 
@@ -54,6 +58,8 @@ public class ServerController {
         Thread ServerRunner = new Thread(server);
         ServerRunner.start();
         System.out.println(getPort());
+        start_server.setDisable(true);
+        logger.info("Server running successfully");
     }
 }
 

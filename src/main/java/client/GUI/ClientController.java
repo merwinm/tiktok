@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import packets.chat.PacketchatMessage;
 import packets.chat.PacketsetUsername;
 
+import java.util.logging.Logger;
+
 public class ClientController {
     public Button send_button;
     public TextField chat_textfield;
@@ -19,6 +21,7 @@ public class ClientController {
     public TextField enter_user_name_field;
     public Button start_game_button;
     public String username;
+    public static final Logger logger = Logger.getLogger("ClientLogger");
 
     public void setClient(Client client){
         this.client = client;
@@ -46,9 +49,14 @@ public class ClientController {
             text_area.appendText("Please enter a Message ");
         }
 
+        if(enter_user_name_field.getCharacters().length() == 0){
+            text_area.appendText("Enter a Username before writing a Message\n");
+        }
+
         else{
-            client.sendPacket(new PacketchatMessage(enter_user_name_field.getText()));
-            enter_user_name_field.clear();
+            client.sendPacket(new PacketchatMessage(chat_textfield.getText()));
+            chat_textfield.clear();
+            logger.info("Message Packet send");
         }
     }
     public void setchatlog(String message){
