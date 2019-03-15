@@ -11,7 +11,7 @@
       <Button fx:id="stop_server" layoutX="403.0" layoutY="325.0" mnemonicParsing="false" text="STOP SERVER" />
       <TextArea fx:id="chatLog" editable="false" layoutX="30.0" layoutY="57.0" prefHeight="256.0" prefWidth="271.0" text="&#10;" />
       <TextArea fx:id="appLog" editable="false" layoutX="318.0" layoutY="56.0" prefHeight="116.0" prefWidth="271.0" text="&#10;" />
-      <TextField fx:id="port_nr" layoutX="236.0" layoutY="327.0" prefHeight="27.0" prefWidth="139.0" promptText="Default PORT: 6000" />
+      <TextField fx:id="port_nr" layoutX="236.0" layoutY="327.0" prefHeight="27.0" prefWidth="149.0" promptText="Default PORT: 6000" />
       <TextArea editable="false" layoutX="318.0" layoutY="185.0" prefHeight="129.0" prefWidth="271.0" />
    </children>
 </AnchorPane>

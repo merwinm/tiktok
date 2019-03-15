@@ -50,7 +50,7 @@ while(true){
 
         if(data !=null){
            data.parseAtClient(this);
-           logger.info("Successfully received packet");
+           logger.info("Packet received successfully");
         }
     } catch (IOException e) {
         e.printStackTrace();

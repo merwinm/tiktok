@@ -45,12 +45,8 @@ public class ClientController {
 
     public void send_on_action(ActionEvent actionEvent) {
 
-        if(chat_textfield.getCharacters().length()==0){
-            text_area.appendText("Please enter a Message ");
-        }
-
-        if(enter_user_name_field.getCharacters().length() == 0){
-            text_area.appendText("Enter a Username before writing a Message\n");
+        if(chat_textfield.getCharacters().length()==0 || enter_user_name_field.getCharacters().length() == 0){
+            text_area.appendText("USERNAME OR MESSAGE REQUIRED\n");
         }
 
         else{
