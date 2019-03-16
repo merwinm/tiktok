@@ -1,13 +1,24 @@
 package client.GUI;
 
 import client.Client;
+import game.GUI.GameGUI;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import packets.chat.PacketchatMessage;
 import packets.chat.PacketsetUsername;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientController {
@@ -59,6 +70,8 @@ public class ClientController {
         text_area.appendText(message+"\n");
     }
 
-    public void start_game_action(ActionEvent actionEvent) {
+    public void start_game_action(ActionEvent actionEvent) throws Exception {
+        GameGUI gameGUI = new GameGUI();
+        gameGUI.start(gameGUI.classStage);
     }
 }
