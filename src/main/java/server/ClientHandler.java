@@ -1,6 +1,7 @@
 package server;
 
 import packets.chat.PacketchatMessage;
+import server.GUI.GameLogic;
 import server.GUI.ServerController;
 
 import java.io.*;
@@ -23,10 +24,12 @@ public class ClientHandler implements Runnable {
     private String username;
     public static ArrayList<ClientHandler>clientList;
     public static ServerController serverController;
+    public static GameLogic game;
     public static final Logger logger = Logger.getLogger("ClientHandler Logger: ");
 
     ClientHandler(Socket clientsocket, Server server){
         this.server = server;
+        this.game = new GameLogic();
         clientList = getclientList();
         serverController = getServerController();
         try {
@@ -76,6 +79,10 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public GameLogic getGame(){
+        return game;
     }
 
     public void broadcast(Packet packet){

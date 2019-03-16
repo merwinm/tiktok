@@ -11,11 +11,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import server.GUI.GameLogic;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class GameGUI extends Application {
@@ -27,10 +30,14 @@ public class GameGUI extends Application {
     public static Stage classStage = new Stage();
     public static GraphicsContext gc;
     public static Logger logger = Logger.getLogger("GameGUI Logger");
-    public static Image cross;
-    public static Image circle;
     public static int posx;
     public static int posy;
+    public static int arrayposx;
+    public static int arrayposy;
+    public static FileInputStream fileInputStream1;
+    public static FileInputStream fileInputStream2;
+    public static int[][] spritelist;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,16 +50,10 @@ public class GameGUI extends Application {
         drawGrid(gc);
         root.getChildren().add(canvas);
         classStage.setScene(scene);
+        setModel();
+        spritelist = new int[3][3];
         classStage.show();
-        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                posx = (int) (event.getX()/100)*100;
-                posy = (int) (event.getY()/100)*100;
-                logger.info("Mousepos X: "+ posx + "Y: "+ posy);
-            }
-        });
+        handleMouseInput();
         animate();
 
     }
@@ -75,21 +76,14 @@ public class GameGUI extends Application {
 
     public void animate(){
 
-        try {
-            FileInputStream fileInputStream1 = new FileInputStream(new File("src/main/resources/Sprites/circle.png"));
-            FileInputStream fileInputStream2 = new FileInputStream(new File("src/main/resources/Sprites/cross.png"));
-            cross = scale(new Image(fileInputStream2),100,100,true);
-            circle = scale(new Image(fileInputStream1),100,100,true);
+        Sprite circle = new Sprite(scale(new Image(fileInputStream1),100,100,true),posx,posy,1); //This object is only for rendering the circkes, it has nothin to do with arraylist
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(symbol)
-                gc.drawImage(cross,posx,posy);
-                else gc.drawImage(circle,posx,posy);
+
+                circle.render(gc,posx,posy);
+
             }
         }.start();
 
@@ -102,4 +96,38 @@ public class GameGUI extends Application {
         imageView.setFitHeight(targetHeight);
         return imageView.snapshot(null, null);
     }
+
+    public void setModel() {
+
+        try {
+            fileInputStream1 = new FileInputStream(new File("src/main/resources/img/circle.png"));
+            fileInputStream2 = new FileInputStream(new File("src/main/resources/img/cross.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleMouseInput(){
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                posx = (int) (event.getX()/100)*100;
+                posy = (int) (event.getY()/100)*100;
+                logger.info("Mousepos X: "+ posx + "Y: "+ posy);
+                Image image = scale(new Image(fileInputStream1),100,100,true);
+                Sprite circle = new Sprite(image,posx,posy,1);
+                addToSpriteList(circle,posx,posy);
+            }
+        });
+    }
+
+    public void addToSpriteList(Sprite sprite,int x, int y){
+            arrayposx= x/100;
+            arrayposy = y/100;
+            spritelist[arrayposy][arrayposx] = sprite.getValue();
+            logger.info(Arrays.deepToString(spritelist));
+    }
+
+
 }

@@ -5,7 +5,7 @@ import server.ClientHandler;
 import server.Packet;
 
 public class PacketMarkO extends Packet {
-    int value = 2;
+    int value = 1;
     int xpos;
     int ypos;
 
